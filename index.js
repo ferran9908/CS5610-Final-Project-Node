@@ -1,9 +1,12 @@
+import * as dotenv from 'dotenv'
 import express from "express";
 import mongoose from 'mongoose'
 import userController from './controllers/UserController.js'
 import isLoggedIn from "./middlewares/isLoggedIn.js";
 
-mongoose.connect(`mongodb://localhost:27017/realestate`)
+dotenv.config()
+
+mongoose.connect(process.env.MONGODB_URI || `mongodb://localhost:27017/realestate`)
   .then(() => console.log("Mongoose Connection Successful"))
   .catch(e => console.log("Mongoose Connection Failed", e))
 
@@ -21,7 +24,7 @@ app.get("/", (_req, res) => {
   });
 });
 
-app.use(userController)
+app.use("/user", userController)
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
