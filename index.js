@@ -5,6 +5,7 @@ import userController from './controllers/UserController.js'
 import bookingController from './controllers/BookingController.js'
 import isLoggedIn from "./middlewares/isLoggedIn.js";
 import houseController from "./controllers/HouseController.js";
+import messageController from "./controllers/MessageController.js";
 
 
 dotenv.config()
@@ -30,6 +31,7 @@ app.get("/", (_req, res) => {
 app.use("/user", userController)
 app.use("/booking", bookingController)
 app.use("/house", houseController)
+app.use("/message", messageController)
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

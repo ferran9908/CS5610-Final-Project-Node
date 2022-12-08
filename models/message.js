@@ -26,8 +26,13 @@ const MessageSchema = new Mongoose.Schema({
         // users cannot change
         unmodifiable: true
     },
-    sellerEmailId: {
-        type: String
+    houseId: {
+        type: String,
+        required: true
+    },
+    sellerId: {
+        type: String,
+        required: true
     }
 },
 {
