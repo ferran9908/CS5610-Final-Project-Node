@@ -37,10 +37,6 @@ const HouseSchema = new Mongoose.Schema({
         type: String,
         required: true
     },
-    pics: {
-        type: Array,
-        required: false
-    },
     beds: {
         type: String,
         required: true
@@ -48,10 +44,6 @@ const HouseSchema = new Mongoose.Schema({
     baths: {
         type: String,
         required: true
-    },
-    hoa: {
-        type: String,
-        required: false
     },
     homeType: {
         type: String,
@@ -81,7 +73,7 @@ const HouseSchema = new Mongoose.Schema({
     },
     createdDate: {
         type: Date,
-        // date is todays date
+        // date is today's date
         default: Date.now,
         // users cannot change
         unmodifiable: true
@@ -89,7 +81,7 @@ const HouseSchema = new Mongoose.Schema({
     },
     lastModifiedDate: {
         type: Date,
-        // date is todays date
+        // date is today's date
         default: Date.now,
         // users cannot change
         unmodifiable: true
