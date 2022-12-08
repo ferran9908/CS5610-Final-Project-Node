@@ -4,7 +4,8 @@ import mongoose from 'mongoose'
 import userController from './controllers/UserController.js'
 import bookingController from './controllers/BookingController.js'
 import isLoggedIn from "./middlewares/isLoggedIn.js";
-import HouseController from './controllers/HouseController.js'
+import houseController from "./controllers/HouseController.js";
+
 
 dotenv.config()
 
