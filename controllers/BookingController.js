@@ -1,9 +1,8 @@
 import { Router } from 'express'
 
-import isLoggedIn from '../middlewares/isLoggedIn.js'
+//import isLoggedIn from '../middlewares/isLoggedIn.js'
 import bookings from "../models/booking.js";
 
-import User from "../models/users.js";
 
 const router = Router()
 
