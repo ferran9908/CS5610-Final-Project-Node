@@ -3,6 +3,7 @@ import User from '../models/users.js'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import isLoggedIn from '../middlewares/isLoggedIn.js'
+import roles from '../enums/roles.js'
 
 const router = Router()
 
@@ -30,7 +31,7 @@ router.post("/login", async (req, res) => {
     if (user) {
         const isSame = await bcrypt.compare(password, user.password)
         if (isSame) {
-            const token = jwt.sign({ email, role: user.role, name: user.name }, SECRET)
+            const token = jwt.sign({ email, role: user.role, name: user.name, id: user._id }, SECRET)
             return res.send({ jwt: token })
         }
         else {
@@ -44,13 +45,34 @@ router.post("/login", async (req, res) => {
 
 router.get("/get-all-users", isLoggedIn, async (req, res) => {
     const { user } = req
-    if (user.role === "ADMIN") {
+    if (user.role === roles.ADMIN) {
         const users = await User.find({})
         return res.send(users)
     }
     else {
         return res.status(401).send({ error: "This route is accessible only to the admin" })
     }
+})
+
+router.delete("/remove-user", isLoggedIn, async (req, res) => {
+    const { user } = req
+    if (user.role === roles.ADMIN) {
+        const userId = req.query.id;
+        console.log({ userId })
+        const users = await User.deleteOne({ _id: userId })
+        return res.send(users)
+    }
+    else {
+        return res.status(401).send({ error: "This route is accessible only to the admin" })
+    }
+})
+
+router.put("/edit-profile", isLoggedIn, async (req, res) => {
+    const { name, email, role } = req.body
+    const { id } = req.user
+    const user = await User.updateOne({ _id: id }, { $set: { name, email, role } })
+    return res.send(user)
+
 })
 
 export default router
