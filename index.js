@@ -2,9 +2,10 @@ import * as dotenv from 'dotenv'
 import express from "express";
 import mongoose from 'mongoose'
 import userController from './controllers/UserController.js'
-import HouseController from './controllers/HouseController.js'
+import bookingController from './controllers/BookingController.js'
 import isLoggedIn from "./middlewares/isLoggedIn.js";
 import houseController from "./controllers/HouseController.js";
+
 
 dotenv.config()
 
@@ -27,6 +28,7 @@ app.get("/", (_req, res) => {
 });
 
 app.use("/user", userController)
+app.use("/booking", bookingController)
 app.use("/house", houseController)
 
 app.listen(port, () => {
