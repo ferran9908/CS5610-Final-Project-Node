@@ -2,6 +2,7 @@ import * as dotenv from 'dotenv'
 import express from "express";
 import mongoose from 'mongoose'
 import userController from './controllers/UserController.js'
+import bookingController from './controllers/BookingController.js'
 import isLoggedIn from "./middlewares/isLoggedIn.js";
 
 dotenv.config()
@@ -25,6 +26,7 @@ app.get("/", (_req, res) => {
 });
 
 app.use("/user", userController)
+app.use("/booking", bookingController)
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
