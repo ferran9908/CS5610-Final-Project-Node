@@ -27,7 +27,7 @@ router.delete("/:bid", isLoggedIn,  async (req, res) => {
     let thisBooking = await bookings.find({_id: bookingId});
 
     // If user is Buyer / Seller of that Booking
-    if(user._id == thisBooking.sellerId || user._id == thisBooking.buyerId) {
+    if(user._id === thisBooking.sellerId || user._id === thisBooking.buyerId) {
         //Delete
         await bookings.deleteOne({_id: bookingId});
         res.sendStatus(200);
@@ -58,7 +58,7 @@ router.get("/find-all-seller/:sid", isLoggedIn, async (req, res)=>  {
     res.send(allBookings)
 })
 
-//Buyer approves a Booking
+//Seller approves a Booking
 router.put("/:bid", isLoggedIn, async (req, res)=>  {
     const bookingId = req.params.bid;
 
