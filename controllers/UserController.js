@@ -39,7 +39,12 @@ router.post("/login", async (req, res) => {
     const isSame = await bcrypt.compare(password, user.password);
     if (isSame) {
       const token = jwt.sign(
-        { email, role: user.role, name: user.name, id: user._id },
+        {
+          email,
+          role: user.role,
+          name: user.name,
+          id: user._id,
+        },
         SECRET
       );
       return res.send({ jwt: token, user });
@@ -80,6 +85,7 @@ router.delete("/remove-user", isLoggedIn, async (req, res) => {
 });
 
 router.put("/edit-profile", isLoggedIn, async (req, res) => {
+  console.log({ reqBody: req.body });
   const { name, email, role } = req.body;
   const { id } = req.user;
   const user = await User.updateOne(
@@ -99,5 +105,19 @@ router.get("/fetch-current-user", isLoggedIn, async (req, res) => {
   return res.send(req.user);
 });
 
-export default router;
+router.get("/fetch-edited-user", isLoggedIn, async (req, res) => {
+  const { id } = req.user;
+  const user = await User.findById(id);
+  const token = jwt.sign(
+    {
+      email: user.email,
+      role: user.role,
+      name: user.name,
+      id: user._id,
+    },
+    SECRET
+  );
+  return res.send({ user, jwt: token });
+});
 
+export default router;
