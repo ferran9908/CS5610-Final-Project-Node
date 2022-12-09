@@ -9,13 +9,11 @@ const router = Router()
 
 //Create Booking
 router.post("/book-tour",  async (req, res) => {
-
     const newBooking = req.body
     let currentdate = new Date();
     newBooking.createdDate = currentdate.toLocaleString();
     bookings.create(newBooking);
     return res.send(newBooking)
-
 })
 
 //Delete Booking
@@ -60,12 +58,18 @@ router.get("/find-all-seller/:sid", isLoggedIn, async (req, res)=>  {
 
 //Seller approves a Booking
 router.put("/:bid", isLoggedIn, async (req, res)=>  {
+    const { user } = req
     const bookingId = req.params.bid;
 
-    await bookings.updateOne({_id: bookingId}, {isAccepted: true})
-
-    const allBookings = await bookings.find({})
-    res.send(allBookings)
+    // If user is Seller of that Booking
+    if(user.role === "SELLER") {
+        await bookings.updateOne({_id: bookingId}, {isAccepted: true})
+        const allBookings = await bookings.find({})
+        res.send(allBookings)
+    }
+    else {
+        return res.status(401).send({ error: "This route is accessible only to the seller" })
+    }
 
 })
 
