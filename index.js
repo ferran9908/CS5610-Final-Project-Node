@@ -1,26 +1,26 @@
-import * as dotenv from 'dotenv'
+import * as dotenv from "dotenv";
 import express from "express";
-import mongoose from 'mongoose'
-import userController from './controllers/UserController.js'
-import bookingController from './controllers/BookingController.js'
+import cors from "cors";
+import mongoose from "mongoose";
+import userController from "./controllers/UserController.js";
+import bookingController from "./controllers/BookingController.js";
 import isLoggedIn from "./middlewares/isLoggedIn.js";
 import houseController from "./controllers/HouseController.js";
 import messageController from "./controllers/MessageController.js";
 
+dotenv.config();
 
-dotenv.config()
-
-mongoose.connect(process.env.MONGODB_URI || `mongodb://localhost:27017/realestate`)
+mongoose
+  .connect(process.env.MONGODB_URI || `mongodb://localhost:27017/realestate`)
   .then(() => console.log("Mongoose Connection Successful"))
-  .catch(e => console.log("Mongoose Connection Failed", e))
+  .catch((e) => console.log("Mongoose Connection Failed", e));
 
 const app = express();
 
 const port = process.env.PORT || 4000;
 
-
 app.use(express.json());
-
+app.use(cors());
 
 app.get("/", (_req, res) => {
   return res.send({
@@ -28,10 +28,10 @@ app.get("/", (_req, res) => {
   });
 });
 
-app.use("/user", userController)
-app.use("/booking", bookingController)
-app.use("/house", houseController)
-app.use("/message", messageController)
+app.use("/user", userController);
+app.use("/booking", bookingController);
+app.use("/house", houseController);
+app.use("/message", messageController);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
