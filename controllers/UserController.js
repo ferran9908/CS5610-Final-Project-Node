@@ -72,7 +72,12 @@ router.put("/edit-profile", isLoggedIn, async (req, res) => {
     const { id } = req.user
     const user = await User.updateOne({ _id: id }, { $set: { name, email, role } })
     return res.send(user)
+})
 
+router.get("/fetch-user", async (req, res) => {
+    const { id } = req.query
+    const user = await User.findById(id);
+    return res.send(user)
 })
 
 export default router
