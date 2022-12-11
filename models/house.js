@@ -86,17 +86,23 @@ const HouseSchema = new Mongoose.Schema({
         // users cannot change
         unmodifiable: true
     },
-    sellerEmailId:{
-        type:String
+    images: [{
+        image: {
+            type: Mongoose.Schema.Types.ObjectId,
+            ref: 'Image'
+        }
+    }],
+    sellerEmailId: {
+        type: String
     },
-    favorite:{
+    favorite: {
         type: Array,
         required: false
     }
 },
-{
-    versionKey: false
-});
+    {
+        versionKey: false
+    });
 
 HouseSchema.virtual('id', () => this._id.toHexString());
 

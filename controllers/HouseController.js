@@ -1,6 +1,7 @@
 import { Router } from "express";
 import House from "../models/house.js";
 import isLoggedIn from "../middlewares/isLoggedIn.js";
+import Images from "../models/houseImages.js";
 
 
 const router = Router();
@@ -8,38 +9,43 @@ const router = Router();
 
 router.post("/add-house", isLoggedIn, async (req, res) => {
   const { user } = req;
-  if (user.role === "BUYER" || user.role === "ADMIN") {
+  if (user.role === "SELLER") {
     const house = House.create(req.body);
     return res.status(201).send(house);
   } else {
     return res
       .status(401)
-      .send({ error: "This route is accessible only to the admin" });
+      .send({ error: "This route is accessible only to the seller" });
   }
 });
 
 router.get("/get-house-details/:id", async (req, res) => {
   const houseId = req.params.id;
-  const house = await House.findOne({ _id: houseId });
+  const house = await House.findOne({ _id: houseId }).populate("images.image");
   return res.status(201).send(house);
 });
 
 
 //Delete House
 router.delete("/:hid", isLoggedIn, async (req, res) => {
-    const houseId = req.params.hid;
-    const { user } = req
+  const houseId = req.params.hid;
+  const { user } = req
 
-    // If user is Buyer / Admin
-    if(user.role === "SELLER" || user.role === "ADMIN" ) {
+  // If user is Buyer / Admin
+  if (user.role === "SELLER" || user.role === "ADMIN") {
     //Delete
-        await House.deleteOne({_id: houseId});
-        res.sendStatus(200);
-    }
-    else {
-        return res.status(401).send({ error: "This route is accessible only to the Buyer / seller" })
-    }
+    await House.deleteOne({ _id: houseId });
+    res.sendStatus(200);
+  }
+  else {
+    return res.status(401).send({ error: "This route is accessible only to the Buyer / seller" })
+  }
 
+})
+
+router.get("/get-houses", async (req, res) => {
+  const houses = await House.find().populate('images.image')
+  return res.send(houses)
 })
 
 

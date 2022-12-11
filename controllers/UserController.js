@@ -85,9 +85,9 @@ router.delete("/remove-user", isLoggedIn, async (req, res) => {
 });
 
 router.put("/edit-profile", isLoggedIn, async (req, res) => {
-  console.log({ reqBody: req.body });
   const { name, email, role } = req.body;
   const { id } = req.user;
+  console.log({ name, email, role, id })
   const user = await User.updateOne(
     { _id: id },
     { $set: { name, email, role } }
