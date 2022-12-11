@@ -2,10 +2,23 @@ import { Router } from "express";
 import House from "../models/house.js";
 import isLoggedIn from "../middlewares/isLoggedIn.js";
 import Images from "../models/houseImages.js";
+import User from "../models/users.js";
 
 
 const router = Router();
 
+router.post("/add-fav-house/:hid", async (req, res) => { // TODO isloggedIn
+  const userId = req.query.id
+  const houseId = req.params.hid
+  const user = await User.findOne({_id: userId})
+
+  user.favHouses.push({
+    house: houseId
+  })
+  await user.save()
+
+  return res.status(200).send(user)
+})
 
 router.post("/add-house", isLoggedIn, async (req, res) => {
   const { user } = req;

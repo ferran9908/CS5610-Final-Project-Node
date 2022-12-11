@@ -21,6 +21,12 @@ const UserSchema = new Mongoose.Schema({
         type: String,
         required: true
     },
+    favHouses: [{
+        house: {
+            type: Mongoose.Schema.Types.ObjectId,
+            ref: 'House'
+        }
+    }],
 }
 );
 
