@@ -1,7 +1,6 @@
 import { Router } from "express";
 import House from "../models/house.js";
 import isLoggedIn from "../middlewares/isLoggedIn.js";
-import Images from "../models/houseImages.js";
 import User from "../models/users.js";
 
 
@@ -18,6 +17,20 @@ router.post("/add-fav-house/:hid", isLoggedIn, async (req, res) => {
   await user.save()
 
   return res.status(200).send(user)
+})
+
+router.post("./edit-house/:hid", isLoggedIn, async (req, res) => {
+  const { user } = req
+  const houseId = req.params.hid;
+
+  // If user is Seller of that House
+  if(user.role === "SELLER") {
+    await House.updateOne({_id: houseId}, req.body)
+    res.send()
+  }
+  else {
+    return res.status(401).send({ error: "This route is accessible only to the seller" })
+  }
 })
 
 router.post("/add-house", isLoggedIn, async (req, res) => {

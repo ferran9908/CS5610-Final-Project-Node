@@ -14,7 +14,7 @@ const MessageSchema = new Mongoose.Schema({
     },
     createdDate: {
         type: Date,
-        // date is todays date
+        // date is today's date
         default: Date.now,
         // users cannot change
         unmodifiable: true
