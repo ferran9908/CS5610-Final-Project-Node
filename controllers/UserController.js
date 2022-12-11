@@ -33,7 +33,7 @@ router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   //TODO: UserDAO call to find user by email
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email }).populate('favHouses.house');
 
   if (user) {
     const isSame = await bcrypt.compare(password, user.password);
@@ -61,7 +61,7 @@ router.post("/login", async (req, res) => {
 router.get("/get-all-users", isLoggedIn, async (req, res) => {
   const { user } = req;
   if (user.role === roles.ADMIN) {
-    const users = await User.find({});
+    const users = await User.find({}).populate('favHouses.house');
     return res.send(users);
   } else {
     return res
@@ -97,7 +97,7 @@ router.put("/edit-profile", isLoggedIn, async (req, res) => {
 
 router.get("/fetch-user", async (req, res) => {
   const { id } = req.query;
-  const user = await User.findById(id);
+  const user = await User.findById(id).populate('favHouses.house');
   return res.send(user);
 });
 
@@ -107,7 +107,7 @@ router.get("/fetch-current-user", isLoggedIn, async (req, res) => {
 
 router.get("/fetch-edited-user", isLoggedIn, async (req, res) => {
   const { id } = req.user;
-  const user = await User.findById(id);
+  const user = await User.findById(id).populate('favHouses.house');
   const token = jwt.sign(
     {
       email: user.email,
