@@ -19,7 +19,7 @@ router.post("/add-fav-house/:hid", isLoggedIn, async (req, res) => {
   return res.status(200).send(user)
 })
 
-router.post("./edit-house/:hid", isLoggedIn, async (req, res) => {
+router.put("/edit-house/:hid", isLoggedIn, async (req, res) => {
   const { user } = req
   const houseId = req.params.hid;
 
