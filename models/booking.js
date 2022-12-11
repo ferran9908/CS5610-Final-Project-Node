@@ -25,6 +25,10 @@ const BookingSchema = new Mongoose.Schema({
         type: String,
         required: true
     },
+    sellerEmailID: {
+        type: String,
+        required: true
+    },
     date: {
         type: Date,
         required: true
@@ -44,9 +48,9 @@ const BookingSchema = new Mongoose.Schema({
     },
 
 },
-{
-    versionKey: false
-});
+    {
+        versionKey: false
+    });
 
 BookingSchema.virtual('id', () => this._id.toHexString());
 
