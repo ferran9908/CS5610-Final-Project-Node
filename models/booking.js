@@ -5,27 +5,19 @@ const BookingSchema = new Mongoose.Schema({
         type: String,
         required: true
     },
-    buyerEmail: {
+    buyerEmailId: {
         type: String,
         required: true
     },
-    buyerContact: {
-        type: String,
-        required: true
-    },
-    houseID: {
-        type: String,
-        required: true
-    },
-    houseName: {
-        type: String,
-        required: true
+    house: {
+        type: Mongoose.Schema.Types.ObjectId,
+        ref: 'House'
     },
     sellerID: {
         type: String,
         required: true
     },
-    sellerEmailID: {
+    sellerEmailId: {
         type: String,
         required: true
     },
@@ -57,6 +49,6 @@ BookingSchema.virtual('id', () => this._id.toHexString());
 BookingSchema.set('toJSON', { virtuals: true });
 
 //bookings collections name, give only singular word - booking
-const Booking = Mongoose.model('booking', BookingSchema);
+const Booking = Mongoose.model('Booking', BookingSchema);
 
 export default Booking;

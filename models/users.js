@@ -34,7 +34,13 @@ const UserSchema = new Mongoose.Schema({
                 ref: 'Message'
             }
         }
-    ]
+    ],
+    bookings: [{
+        booking: {
+            type: Mongoose.Schema.Types.ObjectId,
+            ref: 'Booking'
+        }
+    }]
 }
 );
 
