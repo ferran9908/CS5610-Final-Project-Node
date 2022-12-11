@@ -7,14 +7,16 @@ import User from "../models/users.js";
 const router = Router();
 
 router.post("/add-fav-house/:hid", isLoggedIn, async (req, res) => {
-  const userId = req.query.id
+  const userId = req.user.id
   const houseId = req.params.hid
-  const user = await User.findOne({_id: userId})
+  const user = await User.findOne({ _id: userId })
 
-  user.favHouses.push({
-    house: houseId
-  })
-  await user.save()
+  if (user) {
+    user.favHouses.push({
+      house: houseId
+    })
+    await user.save()
+  }
 
   return res.status(200).send(user)
 })
@@ -24,8 +26,8 @@ router.put("/edit-house/:hid", isLoggedIn, async (req, res) => {
   const houseId = req.params.hid;
 
   // If user is Seller of that House
-  if(user.role === "SELLER") {
-    await House.updateOne({_id: houseId}, req.body)
+  if (user.role === "SELLER") {
+    await House.updateOne({ _id: houseId }, req.body)
     res.send()
   }
   else {
