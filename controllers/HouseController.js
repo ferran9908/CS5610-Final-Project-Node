@@ -7,7 +7,7 @@ import User from "../models/users.js";
 
 const router = Router();
 
-router.post("/add-fav-house/:hid", async (req, res) => { // TODO isloggedIn
+router.post("/add-fav-house/:hid", isLoggedIn, async (req, res) => {
   const userId = req.query.id
   const houseId = req.params.hid
   const user = await User.findOne({_id: userId})
