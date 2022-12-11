@@ -27,6 +27,14 @@ const UserSchema = new Mongoose.Schema({
             ref: 'House'
         }
     }],
+    messages: [
+        {
+            message: {
+                type: Mongoose.Schema.Types.ObjectId,
+                ref: 'Message'
+            }
+        }
+    ]
 }
 );
 

@@ -4,8 +4,9 @@ import Mongoose from "mongoose";
  * Schema for Message collection in mongo db
  */
 const MessageSchema = new Mongoose.Schema({
-    userId: {
-        type: String,
+    user: {
+        type: Mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: false
     },
     description: {
@@ -26,18 +27,19 @@ const MessageSchema = new Mongoose.Schema({
         // users cannot change
         unmodifiable: true
     },
-    houseId: {
-        type: String,
-        required: true
+    house: {
+        type: Mongoose.Schema.Types.ObjectId,
+        ref: 'House',
+        // required: true
     },
-    sellerId: {
+    sellerEmailId: {
         type: String,
         required: true
     }
 },
-{
-    versionKey: false
-});
+    {
+        versionKey: false
+    });
 
 MessageSchema.virtual('id', () => this._id.toHexString());
 
