@@ -17,7 +17,9 @@ router.post("/book-tour",  async (req, res) => {
 })
 
 //Delete Booking
+
 router.delete("/:bid", isLoggedIn,  async (req, res) => {
+
     const bookingId = req.params.bid;
     const { user } = req
 
@@ -43,7 +45,9 @@ router.get("/find-all", isLoggedIn, async (req, res)=>  {
 })
 
 //Find all bookings - Buyer
+
 router.get("/find-all-buyer/:bid", isLoggedIn, async (req, res)=>  {
+
     const buyerId = req.params.bid;
     const allBookings = await bookings.find({buyerID: buyerId})
     res.send(allBookings)
