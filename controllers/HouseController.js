@@ -21,6 +21,28 @@ router.post("/add-fav-house/:hid", isLoggedIn, async (req, res) => {
   return res.status(200).send(user)
 })
 
+router.put("/remove-fav-house/:hid", isLoggedIn, async (req, res) => {
+  const userId = req.user.id
+  const houseId = req.params.hid
+  const user = await User.findOne({ _id: userId })
+
+  if (user) {
+    let requiredIdx = -1
+    for (let i = 0; i < user.favHouses.length; i++) {
+      if (user.favHouses[i].house == houseId) {
+        requiredIdx = i
+        break
+      }
+    }
+    if (requiredIdx !== -1) {
+      user.favHouses.splice(requiredIdx, 1)
+      await user.save()
+    }
+  }
+
+  return res.status(200).send(user)
+})
+
 router.put("/edit-house/:hid", isLoggedIn, async (req, res) => {
   const { user } = req
   const houseId = req.params.hid;
