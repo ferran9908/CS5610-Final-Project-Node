@@ -24,11 +24,6 @@ const UserSchema = new Mongoose.Schema({
 }
 );
 
-// UserSchema.virtual('id', () => this._id.toHexString());
-
-
-// UserSchema.plugin(uniqueValidator, { message: "validation email has to be unique" });
-// UserSchema.set('toJSON', { virtuals: true });
 const User = Mongoose.model('User', UserSchema);
 
 export default User;
