@@ -9,21 +9,25 @@ const router = Router()
 router.post("/send-message", isLoggedIn, async (req, res) => {
     const { user } = req
 
+    console.log(req.body)
     if (user.role === "BUYER") {
         const newMessage = req.body
         const message = await Message.create(newMessage)
         const { _id: id } = message
         const userData = await User.findOne({ email: newMessage.sellerEmailId })
 
+        console.log({ userData, e: newMessage.sellerEmailId })
         if (!userData.messages) {
             userData.messages = [{ message: id }]
         } else {
             userData.messages.push({ message: id })
         }
+        console.log("HERE")
         await userData.save()
         return res.status(201).send({ message, userData })
     }
     else {
+        console.log("ERROR")
         return res.status(401).send({ error: "This route is accessible only to the buyer" })
     }
 })
