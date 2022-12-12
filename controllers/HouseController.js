@@ -103,5 +103,11 @@ router.post("/get-houses", isLoggedIn, async (req, res) => {
   const houses = await House.find({ sellerEmailId: req.body.email });
   return res.send(houses);
 });
+
+router.get("/get-house-by-zipcode", async (req, res) => {
+  const zip = req.query
+  const houses = await House.find({ zipcode: zip })
+  return res.send(houses)
+})
 export default router;
 
