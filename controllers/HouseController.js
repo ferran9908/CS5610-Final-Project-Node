@@ -105,8 +105,10 @@ router.post("/get-houses", isLoggedIn, async (req, res) => {
 });
 
 router.get("/get-house-by-zipcode", async (req, res) => {
-  const zip = req.query
+  const { zip } = req.query
+  console.log({ zip })
   const houses = await House.find({ zipcode: zip })
+  console.log({ houses })
   return res.send(houses)
 })
 export default router;
