@@ -1,9 +1,7 @@
 import { Router } from 'express'
-
-//import isLoggedIn from '../middlewares/isLoggedIn.js'
 import bookings from "../models/booking.js";
 import isLoggedIn from "../middlewares/isLoggedIn.js";
-import Booking from '../models/booking.js';
+
 import User from '../models/users.js';
 
 
@@ -14,7 +12,7 @@ router.post("/book", isLoggedIn, async (req, res) => {
 
     if (user.role === "BUYER") {
         const newBooking = req.body
-        const booking = await Booking.create(newBooking)
+        const booking = await bookings.create(newBooking)
         const { _id: id } = booking
         // const userData = await User.findOne({ email: newMessage.sellerEmailId })
         console.log({ s: newBooking.sellerEmailId, b: newBooking.buyerEmailId })

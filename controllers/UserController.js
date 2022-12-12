@@ -103,7 +103,10 @@ router.get("/fetch-user", async (req, res) => {
   }).populate({
     path: 'messages.message',
     populate: { path: "house" }
-  }).populate("bookings.booking");
+  }).populate({
+    path: 'bookings.booking',
+    populate: {path: 'house'}
+  });
   return res.send(user);
 });
 
