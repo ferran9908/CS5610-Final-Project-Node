@@ -33,7 +33,12 @@ router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   //TODO: UserDAO call to find user by email
-  const user = await User.findOne({ email }).populate("favHouses.house").populate("messages.message").populate({
+  const user = await User.findOne({ email }).populate({
+    path: "favHouses.house",
+    populate: {
+      path: "images.image"
+    }
+  }).populate("messages.message").populate({
     path: 'bookings.booking',
     populate: {
       path: 'house', populate: {
@@ -104,7 +109,12 @@ router.put("/edit-profile", isLoggedIn, async (req, res) => {
 
 router.get("/fetch-user", async (req, res) => {
   const { id } = req.query;
-  const user = await User.findById(id).populate("favHouses.house").populate({
+  const user = await User.findById(id).populate({
+    path: "favHouses.house",
+    populate: {
+      path: "images.image"
+    }
+  }).populate({
     path: "messages.message",
     populate: { path: "user" }
   }).populate({
