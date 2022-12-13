@@ -107,7 +107,7 @@ router.post("/get-houses", isLoggedIn, async (req, res) => {
 router.get("/get-house-by-zipcode", async (req, res) => {
   const { zip } = req.query
   console.log({ zip })
-  const houses = await House.find({ zipcode: zip })
+  const houses = await House.find({ zipcode: zip }).populate('images.image')
   console.log({ houses })
   return res.send(houses)
 })
