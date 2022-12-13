@@ -35,7 +35,11 @@ router.post("/login", async (req, res) => {
   //TODO: UserDAO call to find user by email
   const user = await User.findOne({ email }).populate("favHouses.house").populate("messages.message").populate({
     path: 'bookings.booking',
-    populate: { path: 'house' }
+    populate: {
+      path: 'house', populate: {
+        path: 'images.image'
+      }
+    }
   });
 
   if (user) {
