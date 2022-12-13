@@ -33,7 +33,10 @@ router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   //TODO: UserDAO call to find user by email
-  const user = await User.findOne({ email }).populate("favHouses.house").populate("messages.message");
+  const user = await User.findOne({ email }).populate("favHouses.house").populate("messages.message").populate({
+    path: 'bookings.booking',
+    populate: { path: 'house' }
+  });
 
   if (user) {
     const isSame = await bcrypt.compare(password, user.password);
@@ -105,7 +108,7 @@ router.get("/fetch-user", async (req, res) => {
     populate: { path: "house" }
   }).populate({
     path: 'bookings.booking',
-    populate: {path: 'house'}
+    populate: { path: 'house' }
   });
   return res.send(user);
 });
