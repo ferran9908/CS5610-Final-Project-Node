@@ -100,7 +100,7 @@ router.get("/get-houses", async (req, res) => {
 
 
 router.post("/get-houses", isLoggedIn, async (req, res) => {
-  const houses = await House.find({ sellerEmailId: req.body.email });
+  const houses = await House.find({ sellerEmailId: req.body.email }).populate('images.image');
   return res.send(houses);
 });
 
