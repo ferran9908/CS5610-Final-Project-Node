@@ -112,7 +112,11 @@ router.get("/fetch-user", async (req, res) => {
     populate: { path: "house" }
   }).populate({
     path: 'bookings.booking',
-    populate: { path: 'house' }
+    populate: {
+      path: 'house', populate: {
+        path: 'images.image'
+      }
+    }
   });
   return res.send(user);
 });
